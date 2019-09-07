@@ -3,6 +3,9 @@ package app
 import (
   "os"
   "time"
+  "github.com/pkg/errors"
+
+  "github.com/nirajgeorgian/job/src/model"
 
   "github.com/sirupsen/logrus"
   "github.com/nirajgeorgian/job/src/db"
@@ -47,6 +50,11 @@ func New() (app *App, err error) {
   app.Database, err = db.New(dbConfig)
   if err != nil {
 		return nil, err
+	}
+
+  // migrate database on startup
+  if err := app.Database.AutoMigrate(&model.JobORM{}).Error; err != nil {
+		return nil, errors.Wrap(err, "unable to automatically migrate migrations table")
 	}
 
   return app, err

@@ -1,6 +1,8 @@
 package db
 
 import (
+  "fmt"
+  
   "github.com/pkg/errors"
   "github.com/jinzhu/gorm"
 
@@ -16,6 +18,12 @@ func New(config *Config) (*Database, error) {
 
   if err != nil {
     return nil, errors.Wrap(err, "unable to connect to database")
+  }
+
+  if err = db.DB().Ping(); err != nil {
+    return nil, errors.Wrap(err, "database ping error")
+  } else {
+    fmt.Println("Connected")
   }
 
   return &Database{db}, nil
