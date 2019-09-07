@@ -18,6 +18,9 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
+# application configuration file
+config.yaml
+
 ### Go Patch ###
 /vendor/
 /Godeps/

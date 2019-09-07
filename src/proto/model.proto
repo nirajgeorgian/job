@@ -1,6 +1,6 @@
 syntax = "proto3";
 package job;
-option go_package = "github.com/nirajgeorgian/job/src/proto;job";
+option go_package = "github.com/nirajgeorgian/job/src/model;model";
 
 import "github.com/infobloxopen/protoc-gen-gorm/options/gorm.proto";
 

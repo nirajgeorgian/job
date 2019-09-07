@@ -1,6 +1,6 @@
 syntax = "proto3";
 package job;
-option go_package = "github.com/nirajgeorgian/job/src/proto;job";
+option go_package = "github.com/nirajgeorgian/job/src/api;api";
 
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 option (gogoproto.goproto_registration) = true;

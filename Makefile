@@ -9,7 +9,7 @@ PID                     := /tmp/.$(PROJECTNAME)-api-server.pid # PID file will s
 SERVER_OUT              := "bin/server"
 ENTRYPOINT              := "entry-point.sh"
 PKG                     := "github.com/nirajgeorgian/job"
-SERVER_PKG_BUILD        := "${PKG}/cmd"
+SERVER_PKG_BUILD        := "${PKG}"
 PROTOC_ZIP              := "protoc-3.9.1-linux-x86_64.zip"
 PKG_LIST                := $(shell go list ${PKG}/... | grep -v /vendor/)
 
