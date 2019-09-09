@@ -1,6 +1,7 @@
 package api
 
 import (
+  "fmt"
   context "golang.org/x/net/context"
 
   "github.com/nirajgeorgian/job/src/app"
@@ -27,6 +28,8 @@ func New(a *app.App) (api *API, err error) {
 }
 
 func (s *JobServer) CreateJob(ctx context.Context, in *CreateJobRequest) (*CreateJobResponse, error) {
+  fmt.Println("creating job")
+
   job := in.Job
 
   return &CreateJobResponse{Job: job}, nil

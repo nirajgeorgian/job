@@ -39,9 +39,9 @@ var serveCmd = &cobra.Command{
     proto.RegisterJobServiceServer(grpcServer, &api.JobServer)
     reflection.Register(grpcServer)
 
-    fmt.Printf("starting to listen on tcp: %q", lis.Addr().String())
+    fmt.Printf("starting to listen on tcp: %q\n", lis.Addr().String())
     if err := grpcServer.Serve(lis); err != nil {
-      log.Fatalf("Failed to serve: %v", err)
+      log.Fatalf("Failed to serve: %v\n", err)
     }
 
 		return nil
