@@ -12,7 +12,8 @@ RUN go version
 ENV PROJECT github.com/nirajgeorgian/job
 WORKDIR /go/src/$PROJECT
 
-# copy makefile to execute make commands
+# copy makefile and .git to execute make commands
+COPY .git ./
 COPY Makefile ./
 
 RUN make setup-dep
@@ -33,4 +34,4 @@ RUN job version
 
 # expose and run the main application
 EXPOSE 3000
-CMD ["job", "serve"]
+CMD ["job", "serve", "-p=3000", "-k=dododuckN9", "-d=sqlserver://oojob:dododuckN9@oojob.database.windows.net:1433?database=oojobdev"]

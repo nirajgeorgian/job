@@ -39,7 +39,6 @@ var createJob = &cobra.Command{
 
 		job := model.Job{
 			JobName: "dodo duck",
-			JobId: "1",
 		}
 		r, err := c.CreateJob(ctx, &proto.CreateJobRequest{Job: &job})
 		if err != nil {

@@ -25,6 +25,8 @@ config.yaml
 /vendor/
 /Godeps/
 
+# own managed hidden files
 secret.txt
+bin/*
 
 # End of https://www.gitignore.io/api/go
