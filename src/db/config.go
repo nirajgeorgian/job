@@ -11,7 +11,7 @@ type Config struct {
 
 func InitConfig() (*Config, error) {
   config := &Config{
-    DatabaseURI: viper.GetString("DatabaseURI"),
+    DatabaseURI: viper.GetString("databaseuri"),
   }
 
   if config.DatabaseURI == "" {

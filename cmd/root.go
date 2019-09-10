@@ -8,33 +8,21 @@ import (
   "github.com/spf13/viper"
 )
 
-var rootCmd = &cobra.Command{
-  Use: "jobs",
-  Short: "jobs service application",
-  Long: "jobs service is responsible for CRUD with job entity",
-  Run: func(cmd *cobra.Command, args[]string) {
-    cmd.Usage()
-  },
-}
-
-func Execute() {
-  if err := rootCmd.Execute(); err != nil {
-    fmt.Println(err)
-    os.Exit(1)
-  }
-}
-
-var configFile string
+var ConfigFile string
+var Verbose bool
+var UseViper bool
 
 func init() {
   cobra.OnInitialize(initConfig)
-  rootCmd.PersistentFlags().StringVar(&configFile, "config", "", "config file (default is config.yaml)")
-  rootCmd.PersistentFlags().Bool("viper", true, "Use Viper for configuration")
+
+  RootCmd.PersistentFlags().StringVarP(&ConfigFile, "config", "c", "", "config file (default is config.yaml)")
+  RootCmd.PersistentFlags().BoolVarP(&Verbose, "verbose", "v", false, "verbose output (default is false)")
+  RootCmd.PersistentFlags().BoolVarP(&UseViper, "viper", "r", true, "Use Viper for configuration (default is true)")
 }
 
 func initConfig() {
-  if configFile != "" {
-    viper.SetConfigFile(configFile)
+  if ConfigFile != "" {
+    viper.SetConfigFile(ConfigFile)
   } else {
     viper.SetConfigName("config")
     viper.AddConfigPath(".")
@@ -52,6 +40,22 @@ func initConfig() {
         // Config file was found but another error was produced
         fmt.Errorf("%s \n", err)
     }
+    os.Exit(1)
+  }
+}
+
+var RootCmd = &cobra.Command{
+  Use: "jobs",
+  Short: "jobs service application",
+  Long: "jobs service is responsible for CRUD with job entity",
+  Run: func(cmd *cobra.Command, args[]string) {
+    cmd.Usage()
+  },
+}
+
+func Execute() {
+  if err := RootCmd.Execute(); err != nil {
+    fmt.Println(err)
     os.Exit(1)
   }
 }

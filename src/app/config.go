@@ -13,7 +13,7 @@ type Config struct {
 
 func InitConfig() (*Config, error) {
 	config := &Config{
-    SecretKey: []byte(viper.GetString("SecretKey")),
+    SecretKey: []byte(viper.GetString("secretkey")),
 	}
 
   if len(config.SecretKey) == 0 {
