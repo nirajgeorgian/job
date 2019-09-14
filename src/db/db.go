@@ -6,7 +6,7 @@ import (
   "github.com/pkg/errors"
   "github.com/jinzhu/gorm"
 
-  _ "github.com/jinzhu/gorm/dialects/mssql"
+  _ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 type Database struct {
@@ -14,7 +14,7 @@ type Database struct {
 }
 
 func New(config *Config) (*Database, error) {
-  db, err := gorm.Open("mssql", config.DatabaseURI)
+  db, err := gorm.Open("postgres", config.DatabaseURI)
 
   if err != nil {
     return nil, errors.Wrap(err, "unable to connect to database")

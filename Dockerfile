@@ -1,37 +1,31 @@
-# choose a base golang image
-FROM golang:1.13.0
-
-# add maintainer label for LTS
+FROM golang:alpine AS builder
 LABEL maintainer="Niraj Georgian <nirajgeorgian@gmail.com>"
 
 # define system module and update them
-RUN apt-get update
-RUN go version
+RUN apk update && apk add --no-cache \
+    git \
+    dep
 
-# setup local project and it's dependenciew
-ENV PROJECT github.com/nirajgeorgian/job
-WORKDIR /go/src/$PROJECT
-
-# copy makefile and .git to execute make commands
-COPY .git ./
-COPY Makefile ./
-
-RUN make setup-dep
-RUN dep version
+# Create user for accessing job service.
+RUN adduser -D -g '' jobuser
+WORKDIR /go/src/github.com/nirajgeorgian/job
 
 # install dependencies
 COPY Gopkg.* ./
 RUN dep ensure -vendor-only -v
-
 COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main main.go
 
-# build the application and install it
-RUN make build
-RUN go install /go/src/github.com/nirajgeorgian/job
+# use scratch (base for a docker image)
+FROM scratch
+COPY --from=builder /etc/passwd /etc/passwd
 
-# test job version
-RUN job version
+# set working directory
+WORKDIR /root/
+COPY --from=builder /go/src/github.com/nirajgeorgian/job/config.yaml .
+COPY --from=builder /go/src/github.com/nirajgeorgian/job/main .
 
-# expose and run the main application
+# Use an unprivileged user.
+USER jobuser
 EXPOSE 3000
-CMD ["job", "serve", "-p=3000", "-k=dododuckN9", "-d=sqlserver://oojob:dododuckN9@oojob.database.windows.net:1433?database=oojobdev"]
+CMD ["./main", "serve"]

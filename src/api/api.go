@@ -1,20 +1,24 @@
 package api
 
 import (
-  "fmt"
-  context "golang.org/x/net/context"
+	"fmt"
+	"net"
 
-  "github.com/nirajgeorgian/job/src/app"
-  db "github.com/nirajgeorgian/job/src/db"
+	"golang.org/x/net/context"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
+
+	"github.com/nirajgeorgian/job/src/app"
+	db "github.com/nirajgeorgian/job/src/db"
 )
 
-type JobServer struct{
-  db *db.Database
+type JobServer struct {
+	db *db.Database
 }
 type API struct {
-  App *app.App
-  Config *Config
-  JobServer JobServer
+	App       *app.App
+	Config    *Config
+	JobServer JobServer
 }
 
 func New(a *app.App) (api *API, err error) {
@@ -23,21 +27,35 @@ func New(a *app.App) (api *API, err error) {
 	if err != nil {
 		return nil, err
 	}
-  s := JobServer{db: a.Database}
+	s := JobServer{db: a.Database}
 
-  api.JobServer = s
+	api.JobServer = s
 
 	return api, nil
 }
 
-func (s *JobServer) CreateJob(ctx context.Context, in *CreateJobRequest) (*CreateJobResponse, error) {
-  fmt.Println("creating job")
+func ListenGRPC(api *API, port int) error {
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
+	if err != nil {
+		return err
+	}
+	grpcServer := grpc.NewServer()
+	RegisterJobServiceServer(grpcServer, &api.JobServer)
+	reflection.Register(grpcServer)
 
-  err := s.db.CreateJob(ctx, in.Job)
-  if err != nil {
-    return nil, err
-  }
-  job := in.Job
+	fmt.Printf("starting to listen on tcp: %q\n", lis.Addr().String())
 
-  return &CreateJobResponse{Job: job}, nil
+	return grpcServer.Serve(lis)
+}
+
+func (s *JobServer) CreateJob(ctx context.Context, in *CreateJobReq) (*CreateJobRes, error) {
+	fmt.Println("creating job")
+
+	err := s.db.CreateJob(ctx, in.Job)
+	if err != nil {
+		return nil, err
+	}
+	job := in.Job
+
+	return &CreateJobRes{Job: job}, nil
 }

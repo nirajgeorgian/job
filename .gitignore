@@ -22,7 +22,7 @@
 config.yaml
 
 ### Go Patch ###
-/vendor/
+vendor
 /Godeps/
 
 # own managed hidden files

@@ -2,16 +2,12 @@ package cmd
 
 import (
   "log"
-  "fmt"
-  "net"
 
   proto "github.com/nirajgeorgian/job/src/api"
   "github.com/nirajgeorgian/job/src/app"
 
   "github.com/spf13/cobra"
   "github.com/spf13/viper"
-  "google.golang.org/grpc"
-  "google.golang.org/grpc/reflection"
 )
 
 var Port int
@@ -22,12 +18,12 @@ var proxyCount string
 
 func init() {
   serveCmd.Flags().IntVarP(&Port, "port", "p", 3000, "port configuration for this application")
-  serveCmd.Flags().StringVarP(&SecretKey, "secretkey", "k", "", "secret key for application (required)")
+  serveCmd.Flags().StringVarP(&SecretKey, "secretkey", "k", "dododuckN9", "secret key for application (required)")
   serveCmd.Flags().StringVarP(&DatabaseURI, "databaseuri", "d", "", "database URI for postgresql (required)")
   serveCmd.Flags().StringVarP(&proxyCount, "proxycount", "x", "", "no. of proxy count")
 
-  serveCmd.MarkFlagRequired("secretkey")
-  serveCmd.MarkFlagRequired("databaseuri")
+  // serveCmd.MarkFlagRequired("secretkey")
+  // serveCmd.MarkFlagRequired("databaseuri")
 
   viper.BindPFlag("port", serveCmd.Flags().Lookup("port"))
   viper.BindPFlag("secretkey", serveCmd.Flags().Lookup("secretkey"))
@@ -53,17 +49,8 @@ var serveCmd = &cobra.Command{
 
 		// serveRpc(api)
     port := api.Config.Port
-    lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
-    if err != nil {
-      log.Fatalf("Failed to listen: %v", err)
-    }
 
-    grpcServer := grpc.NewServer()
-    proto.RegisterJobServiceServer(grpcServer, &api.JobServer)
-    reflection.Register(grpcServer)
-
-    fmt.Printf("starting to listen on tcp: %q\n", lis.Addr().String())
-    if err := grpcServer.Serve(lis); err != nil {
+    if err := proto.ListenGRPC(api, port); err != nil {
       log.Fatalf("Failed to serve: %v\n", err)
     }
 

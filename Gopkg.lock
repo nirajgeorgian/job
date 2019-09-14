@@ -2,19 +2,6 @@
 
 
 [[projects]]
-  branch = "master"
-  digest = "1:424cd91fa130c6e286c834dc504956b7fc08233ad68561b4f8e696b69eca804c"
-  name = "github.com/denisenkom/go-mssqldb"
-  packages = [
-    ".",
-    "internal/cp",
-    "internal/decimal",
-    "internal/querytext",
-  ]
-  pruneopts = "UT"
-  revision = "909fa798c9efa7161b6bf68e26e269d8fa115bc1"
-
-[[projects]]
   digest = "1:abeb38ade3f32a92943e5be54f55ed6d6e3b6602761d74b4aab4c9dd45c18abd"
   name = "github.com/fsnotify/fsnotify"
   packages = ["."]
@@ -33,14 +20,6 @@
   pruneopts = "UT"
   revision = "0ca988a254f991240804bf9821f3450d87ccbb1b"
   version = "v1.3.0"
-
-[[projects]]
-  branch = "master"
-  digest = "1:914bae0d7af57d7f9c2c8eff864071e57c3effebd78eeef26eff4afb0372ed2f"
-  name = "github.com/golang-sql/civil"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "cb61b32ac6fe84d34b81730175f91965e43d0f90"
 
 [[projects]]
   branch = "master"
@@ -124,11 +103,10 @@
   version = "v0.17.0"
 
 [[projects]]
-  digest = "1:d477d6f36f0eee80b339fe19072837c18b6ff0b7b2d8bedb4f9f8ee8b7fee03f"
+  digest = "1:da6718abe4d47b1132d98bf3f9b18e302d537bf6daf02bd40804d9295a3f32bd"
   name = "github.com/jinzhu/gorm"
   packages = [
     ".",
-    "dialects/mssql",
     "dialects/postgres",
   ]
   pruneopts = "UT"
@@ -257,14 +235,6 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:100a36e16f77aaad7c9144ab26bcefb92c5b6ebed5b137f935fdc11f541fa5b8"
-  name = "golang.org/x/crypto"
-  packages = ["md4"]
-  pruneopts = "UT"
-  revision = "094676da4a83be5288d281081bba63a173ce6772"
-
-[[projects]]
-  branch = "master"
   digest = "1:8c8471f63317e39731853a4f55d5d8ff43a142aa425a666a0554bdba0a8b7f8b"
   name = "golang.org/x/net"
   packages = [
@@ -386,7 +356,7 @@
     "github.com/infobloxopen/protoc-gen-gorm/errors",
     "github.com/infobloxopen/protoc-gen-gorm/options",
     "github.com/jinzhu/gorm",
-    "github.com/jinzhu/gorm/dialects/mssql",
+    "github.com/jinzhu/gorm/dialects/postgres",
     "github.com/pkg/errors",
     "github.com/sirupsen/logrus",
     "github.com/spf13/cobra",

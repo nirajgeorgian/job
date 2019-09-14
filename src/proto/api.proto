@@ -7,13 +7,13 @@ option (gogoproto.goproto_registration) = true;
 
 import "model.proto";
 
-message CreateJobRequest {
+message CreateJobReq {
   Job job = 1;
 }
-message CreateJobResponse {
+message CreateJobRes {
   Job job = 1;
 }
 
 service JobService {
-  rpc CreateJob (CreateJobRequest) returns (CreateJobResponse) {};
+  rpc CreateJob (CreateJobReq) returns (CreateJobRes) {};
 }
