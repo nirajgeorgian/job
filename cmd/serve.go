@@ -54,7 +54,7 @@ var serveCmd = &cobra.Command{
       log.Fatalf("Failed to serve: %v\n", err)
     }
 
-		return nil
+	return nil
   },
 }
 

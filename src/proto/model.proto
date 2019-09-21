@@ -7,9 +7,49 @@ import "github.com/infobloxopen/protoc-gen-gorm/options/gorm.proto";
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 option (gogoproto.goproto_registration) = true;
 
+message Sallary {
+  option (gorm.opts).ormable = true;
+
+  fixed64 value = 1;
+  string currency = 2;
+}
+message Attachment {
+  option (gorm.opts).ormable = true;
+
+  string type = 1;
+  string value = 2;
+}
+
 message Job {
   option (gorm.opts).ormable = true;
 
   string job_id = 1 [(gorm.field).tag = { primary_key: true }];
   string job_name = 2 [(gorm.field).tag = { type: "varchar(512)" }];
+  string job_description = 3 [(gorm.field).tag = { type: "varchar(512)" }];
+  string job_tag = 4;
+  string job_category = 5;
+  string location = 6;
+  int64 views = 7;
+
+  repeated string skills_required = 8;
+  repeated string users_applied = 9;
+
+  enum JobType {
+    DEFAULT = 0;
+    FEATURED = 1;
+    PREMIUM = 2;
+  }
+  JobType job_type = 10;
+
+  enum JobStatus {
+    ACTIVE = 0;
+    HOLD = 1;
+    EXPIRED = 2;
+    CLOSED = 3;
+    URGENT = 4;
+  }
+  JobStatus job_status = 11;
+
+  Sallary min_sallary = 12;
+  Sallary max_sallary = 13;
 }

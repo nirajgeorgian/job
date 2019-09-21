@@ -11,6 +11,7 @@ import (
 var ConfigFile string
 var Verbose bool
 var UseViper bool
+var JobServiceURI string
 
 func init() {
   cobra.OnInitialize(initConfig)
