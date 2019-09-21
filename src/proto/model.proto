@@ -3,6 +3,7 @@ package job;
 option go_package = "github.com/nirajgeorgian/job/src/model;model";
 
 import "github.com/infobloxopen/protoc-gen-gorm/options/gorm.proto";
+import "google/protobuf/timestamp.proto";
 
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 option (gogoproto.goproto_registration) = true;
@@ -18,6 +19,7 @@ message Attachment {
 
   string type = 1;
   string value = 2;
+  google.protobuf.Timestamp created_at = 3;
 }
 
 message Job {
@@ -26,20 +28,21 @@ message Job {
   string job_id = 1 [(gorm.field).tag = { primary_key: true }];
   string job_name = 2 [(gorm.field).tag = { type: "varchar(512)" }];
   string job_description = 3 [(gorm.field).tag = { type: "varchar(512)" }];
-  string job_tag = 4;
-  string job_category = 5;
-  string location = 6;
-  int64 views = 7;
+  string job_category = 4;
+  string location = 5;
+  int64 views = 6;
 
+  repeated string job_tag = 7;
   repeated string skills_required = 8;
-  repeated string users_applied = 9;
+  repeated string users_applied = 9 [(gorm.field).tag = {type: "uuid"}];
+  repeated Attachment job_attachment = 10;
 
   enum JobType {
     DEFAULT = 0;
     FEATURED = 1;
     PREMIUM = 2;
   }
-  JobType job_type = 10;
+  JobType job_type = 11;
 
   enum JobStatus {
     ACTIVE = 0;
@@ -48,8 +51,11 @@ message Job {
     CLOSED = 3;
     URGENT = 4;
   }
-  JobStatus job_status = 11;
+  JobStatus job_status = 12;
 
-  Sallary min_sallary = 12;
-  Sallary max_sallary = 13;
+  Sallary min_sallary = 13;
+  Sallary max_sallary = 14;
+
+  google.protobuf.Timestamp created_at = 15;
+  google.protobuf.Timestamp updated_at = 16;
 }

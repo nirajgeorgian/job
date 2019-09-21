@@ -379,6 +379,7 @@
     "github.com/infobloxopen/protoc-gen-gorm/options",
     "github.com/jinzhu/gorm",
     "github.com/jinzhu/gorm/dialects/postgres",
+    "github.com/lib/pq",
     "github.com/pkg/errors",
     "github.com/satori/go.uuid",
     "github.com/spf13/cobra",
