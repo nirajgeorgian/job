@@ -21,6 +21,7 @@ import errors1 "github.com/infobloxopen/protoc-gen-gorm/errors"
 import field_mask1 "google.golang.org/genproto/protobuf/field_mask"
 import gorm1 "github.com/jinzhu/gorm"
 import gorm2 "github.com/infobloxopen/atlas-app-toolkit/gorm"
+import pq1 "github.com/lib/pq"
 
 import golang_proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
@@ -181,8 +182,10 @@ type JobORM struct {
 	JobTag         string
 	JobType        int32
 	Location       string
-	MaxSallary     *SallaryORM `gorm:"foreignkey:MaxSallaryJobJobId;association_foreignkey:JobId"`
-	MinSallary     *SallaryORM `gorm:"foreignkey:MinSallaryJobJobId;association_foreignkey:JobId"`
+	MaxSallary     *SallaryORM     `gorm:"foreignkey:MaxSallaryJobJobId;association_foreignkey:JobId"`
+	MinSallary     *SallaryORM     `gorm:"foreignkey:MinSallaryJobJobId;association_foreignkey:JobId"`
+	SkillsRequired pq1.StringArray `gorm:"type:text[]"`
+	UsersApplied   pq1.StringArray `gorm:"type:text[]"`
 	Views          int64
 }
 
@@ -208,8 +211,14 @@ func (m *Job) ToORM(ctx context.Context) (JobORM, error) {
 	to.JobCategory = m.JobCategory
 	to.Location = m.Location
 	to.Views = m.Views
-	// Repeated type []string is not an ORMable message type
-	// Repeated type []string is not an ORMable message type
+	if m.SkillsRequired != nil {
+		to.SkillsRequired = make(pq1.StringArray, len(m.SkillsRequired))
+		copy(to.SkillsRequired, m.SkillsRequired)
+	}
+	if m.UsersApplied != nil {
+		to.UsersApplied = make(pq1.StringArray, len(m.UsersApplied))
+		copy(to.UsersApplied, m.UsersApplied)
+	}
 	to.JobType = int32(m.JobType)
 	to.JobStatus = int32(m.JobStatus)
 	if m.MinSallary != nil {
@@ -249,8 +258,14 @@ func (m *JobORM) ToPB(ctx context.Context) (Job, error) {
 	to.JobCategory = m.JobCategory
 	to.Location = m.Location
 	to.Views = m.Views
-	// Repeated type []string is not an ORMable message type
-	// Repeated type []string is not an ORMable message type
+	if m.SkillsRequired != nil {
+		to.SkillsRequired = make(pq1.StringArray, len(m.SkillsRequired))
+		copy(to.SkillsRequired, m.SkillsRequired)
+	}
+	if m.UsersApplied != nil {
+		to.UsersApplied = make(pq1.StringArray, len(m.UsersApplied))
+		copy(to.UsersApplied, m.UsersApplied)
+	}
 	to.JobType = Job_JobType(m.JobType)
 	to.JobStatus = Job_JobStatus(m.JobStatus)
 	if m.MinSallary != nil {

@@ -53,7 +53,7 @@ protos: ## generate the server and client proto defination files
 			-I src/proto \
 			-I${GOPATH}/src \
 			--go_out=${GOPATH}/src \
-			--gorm_out=${GOPATH}/src \
+			--gorm_out=engine=postgres:${GOPATH}/src \
 			src/proto/model.proto ; \
 		echo "generating $$service api" ; \
 		protoc \
