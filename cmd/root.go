@@ -3,6 +3,7 @@ package cmd
 import (
   "fmt"
   "os"
+	"time"
 	log "github.com/Sirupsen/logrus"
 
   "github.com/spf13/cobra"
