@@ -17,6 +17,7 @@ spec:
       containers:
         - name: job
           image: nirajgeorgian/job:latest
+          imagePullPolicy: "Always"
           ports:
             - name: job-service
               containerPort: 3000
