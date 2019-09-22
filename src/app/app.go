@@ -31,7 +31,11 @@ func New() (app *App, err error) {
 	}
 
   // migrate database on startup
-  if err := app.Database.AutoMigrate(&model.JobORM{}).Error; err != nil {
+  if err := app.Database.AutoMigrate(
+		&model.JobORM{},
+		&model.SallaryORM{},
+		&model.AttachmentORM{},
+		).Error; err != nil {
 		return nil, errors.Wrap(err, "unable to automatically migrate migrations table")
 	}
 

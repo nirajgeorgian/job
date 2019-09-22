@@ -3,6 +3,7 @@ package cmd
 import (
   "fmt"
   "os"
+	log "github.com/Sirupsen/logrus"
 
   "github.com/spf13/cobra"
   "github.com/spf13/viper"
@@ -12,13 +13,33 @@ var ConfigFile string
 var Verbose bool
 var UseViper bool
 var JobServiceURI string
+var Environment string
+var Logger = log.Logger{}
 
 func init() {
   cobra.OnInitialize(initConfig)
 
   RootCmd.PersistentFlags().StringVarP(&ConfigFile, "config", "c", "", "config file (default is config.yaml)")
+	RootCmd.PersistentFlags().StringVarP(&Environment, "environment", "e", "development", "Environment variable (default is development)")
   RootCmd.PersistentFlags().BoolVarP(&Verbose, "verbose", "v", false, "verbose output (default is false)")
   RootCmd.PersistentFlags().BoolVarP(&UseViper, "viper", "r", true, "Use Viper for configuration (default is true)")
+
+	log.SetFormatter(&log.JSONFormatter{
+		FieldMap: log.FieldMap{
+			log.FieldKeyTime:  "timestamp",
+			log.FieldKeyLevel: "severity",
+			log.FieldKeyMsg:   "message",
+		},
+		TimestampFormat: time.RFC3339Nano,
+	})
+  log.SetOutput(os.Stdout)
+	if Environment == "production" {
+		log.SetLevel(log.WarnLevel)
+	} else {
+		log.SetLevel(log.InfoLevel)
+	}
+
+	log.Infof("Successfully initialized job service")
 }
 
 func initConfig() {
