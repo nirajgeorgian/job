@@ -1,40 +1,51 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: job-deployment
+  creationTimestamp: null
+  name: job
+  namespace: dododuck
   labels:
     app: job
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: job
+  strategy: {}
   template:
     metadata:
+      creationTimestamp: null
       labels:
-        app: job
+        app: job-svc
     spec:
+      serviceAccountName: job
       containers:
-        - name: job
+        - name: job-svc
           image: nirajgeorgian/job:latest
           imagePullPolicy: "Always"
+          resources:
+            requests:
+              cpu: 100m
           ports:
-            - name: job-service
+            - name: grpc
               containerPort: 3000
           env:
             - name: DATABASEURI
               value: "host=salt.db.elephantsql.com user=pvhdolsp dbname=pvhdolsp password=WPSXt41F15pPgpTx-0V7CC6Ec5ALoyvL sslmode=disable"
             - name: PORT
-              value: "3000"
-
+              value: 3000
+status: {}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: job-service
+  name: job-svc
+  namespace: dododuck
 spec:
   selector:
-    app: job
+    app: job-svc
+  clusterIP: None
   ports:
     - port: 3000
-      targetPort: job-service
+      targetPort: 3000
+      name: grpc
