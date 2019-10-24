@@ -3,14 +3,14 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    app: job
+    app: job-svc
   name: job
   namespace: dododuck
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: job
+      app: job-svc
   strategy: {}
   template:
     metadata:

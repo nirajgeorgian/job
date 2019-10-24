@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   name: job
   namespace: dododuck
   labels:
-    app: job
+    app: job-svc
+  creationTimestamp: null
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: job
+      app: job-svc
   strategy: {}
   template:
     metadata:
