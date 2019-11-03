@@ -22,7 +22,7 @@ COPY --from=builder /etc/passwd /etc/passwd
 
 # set working directory
 WORKDIR /root/
-COPY --from=builder /go/src/github.com/nirajgeorgian/job/config.yaml .
+COPY --from=builder /go/src/github.com/nirajgeorgian/job/config.yml .
 COPY --from=builder /go/src/github.com/nirajgeorgian/job/main .
 
 # Use an unprivileged user.
