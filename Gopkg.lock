@@ -372,6 +372,8 @@
     "github.com/Sirupsen/logrus",
     "github.com/gogo/protobuf/gogoproto",
     "github.com/golang/protobuf/proto",
+    "github.com/golang/protobuf/ptypes",
+    "github.com/golang/protobuf/ptypes/timestamp",
     "github.com/grpc-ecosystem/go-grpc-middleware",
     "github.com/grpc-ecosystem/go-grpc-middleware/recovery",
     "github.com/infobloxopen/atlas-app-toolkit/gorm",
